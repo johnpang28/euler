@@ -21,5 +21,5 @@ object p0004 {
       if isPalindrome(p)
     } yield p
 
-  findPalindromeProducts(999).sorted.last // 906609
+  findPalindromeProducts(999).max // 906609
 }
