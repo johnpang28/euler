@@ -6,13 +6,6 @@ multiples is 23.
 Find the sum of all the multiples of 3 or 5 below 1000.
 
 */
-object p0001 {
 
-  def sumMultiples(x: Int): Int =
-    if (x > 1)
-      if (x % 3 == 0 || x % 5 == 0) x + sumMultiples(x - 1)
-      else sumMultiples(x - 1)
-    else 0
+(1 until 1000).filter(x => x % 3 == 0 || x % 5 == 0).sum // 233168
 
-  sumMultiples(999) // 233168
-}
