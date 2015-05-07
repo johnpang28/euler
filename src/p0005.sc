@@ -7,12 +7,14 @@ What is the smallest positive number that is evenly divisible by all of the numb
 */
 object p0005 {
 
-  def smallestNumberDivisibleBy(r: Range): Int =
-    smallestNumberDivisibleByIter(r, r.max)
+  def smallestNumberDivisibleBy(r: Range): Int = {
 
-  def smallestNumberDivisibleByIter(r: Range, x: Int): Int =
-    if (r.forall(x % _ == 0)) x
-    else smallestNumberDivisibleByIter(r, x + 1)
+    def process(r: Range, x: Int): Int =
+      if (r.forall(x % _ == 0)) x
+      else process(r, x + 1)
+
+    process(r, r.max)
+  }
 
   smallestNumberDivisibleBy(20 to 1 by -1) // 232792560
 }
