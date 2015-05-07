@@ -11,17 +11,7 @@ even-valued terms.
 */
 object p0002 {
 
-  val start = List(1, 2)
+  val fibs: Stream[Int] = 1 #:: 2 #:: fibs.zip(fibs.tail).map(n => n._1 + n._2)
 
-  def next(xs: List[Int]) = xs.takeRight(2).sum
-
-  def grow(xs: List[Int], max: Int): List[Int] = {
-    val x = next(xs)
-    if (x < max) grow(xs ::: List(x), max)
-    else xs
-  }
-
-  def sumEven(xs: List[Int]) = xs.filter(_ % 2 == 0).sum
-
-  sumEven(grow(start, 4000000))
+  fibs.takeWhile(_ < 4000000).filter(_ % 2 == 0).sum // 4613732
 }

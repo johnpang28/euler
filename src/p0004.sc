@@ -8,24 +8,18 @@ Find the largest palindrome made from the product of two 3-digit numbers.
  */
 object p0004 {
 
-  class Product(val x:Int, val y:Int, val p:Int)
-
   def isPalindrome(n: Int): Boolean = {
     val s = n.toString
-    n.toString.equals(s.reverse)
+    s.equals(s.reverse)
   }
 
-  def findPalindromeProducts(max: Int): Seq[Product] =
+  def findPalindromeProducts(max: Int): Seq[Int] =
     for {
       x <- 0 to max
       y <- 0 to x
       p = x * y
       if isPalindrome(p)
-    } yield new Product(x, y, p)
+    } yield p
 
-  def findLargestPalindromeProduct(max: Int) =
-    findPalindromeProducts(max).sortBy(_.p).last.p
-
-  findLargestPalindromeProduct(99) // 9009
-  findLargestPalindromeProduct(999) // 906609
+  findPalindromeProducts(999).sorted.last // 906609
 }

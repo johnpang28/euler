@@ -26,8 +26,5 @@ object p0003 {
   def largestPrimeFactor(x: Long): Long =
     largetPrimeFactorIter(x, 2)
 
-  largestPrimeFactor(58) // 29
-  largestPrimeFactor(19946) // 9973
-  largestPrimeFactor(13195) // 29
   largestPrimeFactor(600851475143L) // 6857
 }

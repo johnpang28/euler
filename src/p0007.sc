@@ -7,7 +7,7 @@ What is the 10 001st prime number?
  */
 object p0007 {
 
-  val knownPrimes = List(2, 3, 5, 7, 11, 13)
+  val primes: Stream[Int] = Stream.from(2).filter(isPrime(_))
 
   def hasHigherFactor(x: Long, f: Long, max: Long): Boolean =
     if (f > max) false
@@ -21,19 +21,5 @@ object p0007 {
       !hasHigherFactor(x, 2, max)
     }
 
-  def addNextPrimeToList(ps: List[Int]): List[Int] =
-    ps ::: List(nextPrime(ps.last + 1))
-
-  def nextPrime(x: Int): Int =
-    if (isPrime(x)) x
-    else nextPrime(x + 1)
-
-  def expandPrimes(max: Int, ps: List[Int]): List[Int] =
-    if (ps.size == max) ps
-    else expandPrimes(max, addNextPrimeToList(ps))
-
-  def findPrimes(max: Int): List[Int] =
-    expandPrimes(max, knownPrimes)
-
-  findPrimes(10001).last
+  primes(10000) // remember index starts at 0. answer is 104743
 }

@@ -23,5 +23,5 @@ object p0006 {
 
   def diff(r: Range) = squareOfSum(r) - sumOfSquares(r)
 
-  diff(1 to 100)
+  diff(1 to 100) // 25164150
 }

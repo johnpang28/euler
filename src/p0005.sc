@@ -14,6 +14,5 @@ object p0005 {
     if (r.forall(x % _ == 0)) x
     else smallestNumberDivisibleByIter(r, x + 1)
 
-  smallestNumberDivisibleBy(10 to 1 by -1) // 2520
   smallestNumberDivisibleBy(20 to 1 by -1) // 232792560
 }
