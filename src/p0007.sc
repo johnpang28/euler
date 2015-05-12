@@ -5,20 +5,19 @@ By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that 
 What is the 10 001st prime number?
 
  */
+
+import scala.math._
+
 object p0007 {
 
-  val primes: Stream[Int] = Stream.from(2).filter(isPrime(_))
+  val primes: Stream[Int] = 2 #:: 3 #:: 5 #:: 7 #:: 11 #:: 13 #:: Stream.from(17).filter(isPrime)
 
-  def hasHigherFactor(x: Long, f: Long, max: Long): Boolean =
-    if (f > max) false
-    else if (x % f == 0) true
-    else hasHigherFactor(x, f + 1, max)
-
-  def isPrime(x: Long): Boolean =
+  def isPrime(x: Int): Boolean =
     if (x < 1) false
+    else if (x > 2 && x % 2 == 0) false
     else {
-      val max = if (x % 2 == 0) x / 2 else (x + 1) / 2
-      !hasHigherFactor(x, 2, max)
+      val max = sqrt(x).ceil.toInt
+      primes.takeWhile(_ <= max).forall(x % _ != 0)
     }
 
   primes(10000) // remember index starts at 0. answer is 104743
