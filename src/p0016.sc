@@ -7,6 +7,8 @@ What is the sum of the digits of the number 2 to the power 1000?
  */
 object p0016 {
 
+  // Could have used BigInt to do this easily, but that misses the point of this exercise!
+
   def power(n: String, power: Int): String  =
     if (power == 0) "0"
     else if (power == 1) n
@@ -24,5 +26,5 @@ object p0016 {
     case Nil => toFrom
   }
 
-  power("2", 1000).toCharArray.map(_.asDigit).sum // 1366 
+  power("2", 1000).toCharArray.map(_.asDigit).sum // 1366
 }
