@@ -37,6 +37,8 @@ clever method! ;o)
  */
 object p0018 {
 
+  type Route = List[(Int, Int)]
+
   val triangle: Array[Array[Int]] =
     """75
       |95 64
@@ -55,13 +57,13 @@ object p0018 {
       |04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
       |""".stripMargin.split('\n').map(_.split(' ').map(_.toInt))
 
-  def routes(triangle: Array[Array[Int]]): List[List[(Int, Int)]] = {
+  def routes(triangle: Array[Array[Int]]): List[Route] = {
 
-    @tailrec def routesIter(v: List[List[(Int, Int)]], r: Int): List[List[(Int, Int)]] =
-      if (r == triangle.length) v
+    @tailrec def routesIter(routes: List[Route], row: Int): List[Route] =
+      if (row == triangle.length) routes
       else {
-        val next = v.flatMap(l => List(l ::: List((r, l.last._2)), l ::: List((r, l.last._2 + 1))))
-        routesIter(next, r + 1)
+        val next = routes.flatMap(r => List(r ::: List((row, r.last._2)), r ::: List((row, r.last._2 + 1))))
+        routesIter(next, row + 1)
       }
 
     routesIter(List(List((0, 0))), 1)
