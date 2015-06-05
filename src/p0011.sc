@@ -31,7 +31,9 @@ What is the greatest product of four adjacent numbers in the same direction (up,
 
 object p0011 {
 
-  val s =
+  case class Pos(x: Int, y: Int)
+
+  val grid =
     """ |08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
         |49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
         |81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -51,35 +53,33 @@ object p0011 {
         |04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
         |20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
         |20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
-        |01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48""".stripMargin
-
-  val grid = s.split("""\n""").map(_.split(""" """).map(_.toInt))
+        |01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48""".stripMargin.split('\n').map(_.split(' ').map(_.toInt))
 
   val xMax = 19
   val yMax = 19
   val numCount = 4
 
-  val horizontalsCoords = for {
+  val horizCoords = for {
     x <- 0 to xMax - numCount + 1
     y <- 0 to yMax
-  } yield (0 until numCount).map(i => (x + i, y))
+  } yield (0 until numCount).map(i => Pos(x + i, y))
 
-  val verticalCoords = for {
+  val vertCoords = for {
     y <- 0 to yMax - numCount + 1
     x <- 0 to xMax
-  } yield (0 until numCount).map(i => (x, y + i))
+  } yield (0 until numCount).map(i => Pos(x, y + i))
 
-  val diagonalCoords1 = for {
+  val diagCoords1 = for {
     x <- 0 to xMax - numCount + 1
     y <- 0 to yMax - numCount + 1
-  } yield (0 until numCount).map(i => (x + i, y + i))
+  } yield (0 until numCount).map(i => Pos(x + i, y + i))
 
-  val diagonalCoords2 = for {
+  val diagCoords2 = for {
     x <- numCount - 1 to xMax
     y <- 0 to yMax - numCount + 1
-  } yield (0 until numCount).map(i => (x - i, y + i))
+  } yield (0 until numCount).map(i => Pos(x - i, y + i))
 
-  (horizontalsCoords ++ verticalCoords ++ diagonalCoords1 ++ diagonalCoords2).map {
-    _.map(xy => grid(xy._1)(xy._2)).product
+  (horizCoords ++ vertCoords ++ diagCoords1 ++ diagCoords2).map {
+    _.map(p => grid(p.x)(p.y)).product
   }.max // 70600674
 }
