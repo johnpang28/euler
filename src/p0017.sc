@@ -11,9 +11,9 @@ hundred and fifteen) contains 20 letters. The use of "and" when writing out numb
  */
 object p0017 {
 
-  case class EnglishNumber(x1000: Option[Int], x100: Option[Int], lt100ge20: Option[Int], lt20: Option[Int])
+  case class EnglishNum(x1000: Option[Int], x100: Option[Int], lt100ge20: Option[Int], lt20: Option[Int])
 
-  val numberMap = Map(
+  val numMap = Map(
     1 -> "one", 2 -> "two", 3 -> "three",  4 -> "four",  5 -> "five", 6 -> "six", 7 -> "seven", 8 -> "eight",
     9 -> "nine", 10 -> "ten", 11 -> "eleven", 12 -> "twelve", 13 -> "thirteen", 14 -> "fourteen", 15 -> "fifteen",
     16 -> "sixteen", 17 -> "seventeen", 18 -> "eighteen", 19 -> "nineteen", 20 -> "twenty", 30 -> "thirty",
@@ -21,34 +21,34 @@ object p0017 {
     1000  -> "thousand"
   )
 
-  def breakdown(n: Int): EnglishNumber =
-    if (n < 20) EnglishNumber(None, None, None, Some(n))
+  def breakdown(n: Int): EnglishNum =
+    if (n < 20) EnglishNum(None, None, None, Some(n))
     else if (n >= 20 && n < 100) {
       val r = n % 10
-      if (r == 0) EnglishNumber(None, None, Some(n), None)
-      else EnglishNumber(None, None, Some(n - r), Some(r))
+      if (r == 0) EnglishNum(None, None, Some(n), None)
+      else EnglishNum(None, None, Some(n - r), Some(r))
     } else if (n >= 100 && n < 1000) {
       val r = n % 100
       val c = n - r
-      if (r == 0) EnglishNumber(None, Some(c / 100), None, None)
+      if (r == 0) EnglishNum(None, Some(c / 100), None, None)
       else {
         val lt100 = breakdown(r)
-        EnglishNumber(None, Some(c / 100), lt100.lt100ge20, lt100.lt20)
+        EnglishNum(None, Some(c / 100), lt100.lt100ge20, lt100.lt20)
       }
-    } else if (n == 1000) EnglishNumber(Some(1), None, None, None)
+    } else if (n == 1000) EnglishNum(Some(1), None, None, None)
     else throw new Error("Number not supported" )
 
   def toWordsFromInt(n: Int): List[String] = toWordsFromEnglishNumber(breakdown(n))
 
-  def toWordsFromEnglishNumber(n: EnglishNumber): List[String] = n match {
-    case EnglishNumber(None, None, None, Some(lt20)) => List(numberMap(lt20))
-    case EnglishNumber(None, None, Some(lt100ge20), None) => List(numberMap(lt100ge20))
-    case EnglishNumber(None, None, Some(lt100ge20), Some(lt20)) => List(numberMap(lt100ge20), numberMap(lt20))
-    case EnglishNumber(None, Some(x100), None, None) => List(numberMap(x100), numberMap(100))
-    case EnglishNumber(None, Some(x100), Some(lt100ge20), None) => List(numberMap(x100), numberMap(100), "and", numberMap(lt100ge20))
-    case EnglishNumber(None, Some(x100), Some(lt100ge20), Some(lt20)) => List(numberMap(x100), numberMap(100), "and", numberMap(lt100ge20), numberMap(lt20))
-    case EnglishNumber(None, Some(x100), None, Some(lt20)) => List(numberMap(x100), numberMap(100), "and", numberMap(lt20))
-    case EnglishNumber(Some(x1000), None, None, None) => List(numberMap(x1000), numberMap(1000))
+  def toWordsFromEnglishNumber(n: EnglishNum): List[String] = n match {
+    case EnglishNum(None, None, None, Some(lt20))                  => List(numMap(lt20))
+    case EnglishNum(None, None, Some(lt100ge20), None)             => List(numMap(lt100ge20))
+    case EnglishNum(None, None, Some(lt100ge20), Some(lt20))       => List(numMap(lt100ge20), numMap(lt20))
+    case EnglishNum(None, Some(x100), None, None)                  => List(numMap(x100), numMap(100))
+    case EnglishNum(None, Some(x100), Some(lt100ge20), None)       => List(numMap(x100), numMap(100), "and", numMap(lt100ge20))
+    case EnglishNum(None, Some(x100), Some(lt100ge20), Some(lt20)) => List(numMap(x100), numMap(100), "and", numMap(lt100ge20), numMap(lt20))
+    case EnglishNum(None, Some(x100), None, Some(lt20))            => List(numMap(x100), numMap(100), "and", numMap(lt20))
+    case EnglishNum(Some(x1000), None, None, None)                 => List(numMap(x1000), numMap(1000))
   }
 
   (1 to 1000).foldLeft(0) { (b, a) => toWordsFromInt(a).map(_.length).sum + b } // 21124
